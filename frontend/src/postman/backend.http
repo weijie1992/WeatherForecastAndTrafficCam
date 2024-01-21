@@ -1,0 +1,15 @@
+
+@trafficImageUrl = https://api.data.gov.sg/v1/transport/traffic-images
+@weatherForecast = https://api.data.gov.sg/v1/environment/2-hour-weather-forecast
+
+@reverseMapping = https://www.onemap.gov.sg/api/public/revgeocode?location=1.384,103.891443&buffer=10&addressType=All&otherFeatures=N
+###
+GET {{trafficImageUrl}}?date_time=2024-01-21T13:11:11
+
+###
+GET {{weatherForecast}} 
+
+###
+GET {{reverseMapping}}
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4NzYwYWNhMjdlODVkODEyNTViNzMzMmIyYjU3ODJlZiIsImlzcyI6Imh0dHA6Ly9pbnRlcm5hbC1hbGItb20tcHJkZXppdC1pdC0xMjIzNjk4OTkyLmFwLXNvdXRoZWFzdC0xLmVsYi5hbWF6b25hd3MuY29tL2FwaS92Mi91c2VyL3Bhc3N3b3JkIiwiaWF0IjoxNzA1NzY2MzEwLCJleHAiOjE3MDYwMjU1MTAsIm5iZiI6MTcwNTc2NjMxMCwianRpIjoiMmVQWU5xNHNnQWdZNmc4eCIsInVzZXJfaWQiOjIzMDMsImZvcmV2ZXIiOmZhbHNlfQ.XXQdqp1Ujk9f1mEEl6pYZHc-i5cKJGu_dfIOVg9rmq4
+

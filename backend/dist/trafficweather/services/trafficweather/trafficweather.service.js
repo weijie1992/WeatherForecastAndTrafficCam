@@ -20,10 +20,65 @@ let TrafficweatherService = class TrafficweatherService {
     }
     async getTrafficWeatherData(datetime) {
         const trafficImageResponse = await this.trafficImageApiService.getData(datetime);
-        console.log('🚀 ~ TrafficweatherService ~ getTrafficWeatherData ~ trafficImageResponse:', trafficImageResponse);
-        const weatherForecastApiService = await this.weatherForecastApiService.getData();
-        console.log('🚀 ~ TrafficweatherService ~ getTrafficWeatherData ~ weatherForecastApiService:', weatherForecastApiService);
-        return trafficImageResponse;
+        this.validateTrafficImageResponse(trafficImageResponse, datetime);
+        const cameraList = this.mapCameraList(trafficImageResponse.items[0].cameras);
+        const coordinates1 = this.mapCameraCoordinates(cameraList);
+        const weatherForecastResponse = await this.weatherForecastApiService.getData();
+        const mappedWeatherForcast = this.mapWeatherForecast(weatherForecastResponse);
+        const filteredResults = this.filterResults(coordinates1, mappedWeatherForcast);
+        return filteredResults;
+    }
+    validateTrafficImageResponse(trafficImageResponse, datetime) {
+        if (Object.keys(trafficImageResponse.items[0]).length === 0) {
+            throw new common_1.HttpException(`No traffic images found given ${datetime}`, common_1.HttpStatus.BAD_REQUEST);
+        }
+    }
+    mapCameraList(cameraList) {
+        return cameraList.map((item) => ({
+            image: item.image,
+            latitude: item.location.latitude.toFixed(2),
+            longitude: item.location.longitude.toFixed(2),
+        }));
+    }
+    mapCameraCoordinates(cameraList) {
+        return new Map(cameraList.map((item) => [
+            `${item.latitude},${item.longitude}`,
+            item.image,
+        ]));
+    }
+    mapWeatherForecast(weatherForecastResponse) {
+        const mappedWeatherForcastMetaData = new Map(weatherForecastResponse.area_metadata.map((item) => [
+            item.name,
+            {
+                latitude: item.label_location.latitude,
+                longitude: item.label_location.longitude,
+            },
+        ]));
+        return weatherForecastResponse.items[0].forecasts.map((forecast) => ({
+            area: forecast.area,
+            forecast: forecast.forecast,
+            latitude: mappedWeatherForcastMetaData
+                .get(forecast.area)
+                .latitude.toFixed(2),
+            longitude: mappedWeatherForcastMetaData
+                .get(forecast.area)
+                .longitude.toFixed(2),
+        }));
+    }
+    filterResults(coordinates, weatherForecast) {
+        return weatherForecast
+            .map((item) => {
+            if (coordinates.has(`${item.latitude},${item.longitude}`)) {
+                return {
+                    ...item,
+                    image: coordinates.get(`${item.latitude},${item.longitude}`),
+                };
+            }
+            else {
+                return null;
+            }
+        })
+            .filter(Boolean);
     }
 };
 exports.TrafficweatherService = TrafficweatherService;

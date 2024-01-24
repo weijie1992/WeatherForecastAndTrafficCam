@@ -12,23 +12,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TrafficImageApiService = void 0;
 const axios_1 = require("@nestjs/axios");
 const common_1 = require("@nestjs/common");
-const api_1 = require("../../constants/api");
 const rxjs_1 = require("rxjs");
+const api_1 = require("../../constants/api");
 let TrafficImageApiService = class TrafficImageApiService {
     constructor(httpService) {
         this.httpService = httpService;
     }
-    async getData(datetime) {
-        console.log('🚀 ~ TrafficImageApiService ~ getData ~ datetime:', datetime);
-        console.log(`${api_1.trafficImageUrl}?date_time=${datetime}`);
-        const response = await this.httpService
-            .get(`${api_1.trafficImageUrl}?date_time=${datetime}`)
-            .pipe((0, rxjs_1.catchError)((error) => {
-            console.log('🚀 ~ TrafficImageApiService ~ catchError ~ error:', error);
-            throw error;
-        }));
-        console.log('🚀 ~ TrafficImageApiService ~ getData ~ response:', response);
-        return response;
+    async getData(params) {
+        return (0, rxjs_1.firstValueFrom)(this.httpService
+            .get(`${api_1.trafficImageUrl}?date_time=${params.datetime}`)
+            .pipe((0, rxjs_1.map)((response) => response.data), (0, rxjs_1.catchError)((error) => {
+            console.error(error);
+            throw new common_1.HttpException(api_1.ERRORS.service, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        })));
     }
 };
 exports.TrafficImageApiService = TrafficImageApiService;

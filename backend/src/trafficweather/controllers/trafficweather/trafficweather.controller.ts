@@ -9,12 +9,6 @@ export class TrafficweatherController {
   async getTrafficWeather(
     @Param(ValidationPipe) params: TrafficWeatherRequest,
   ) {
-    console.log(
-      '🚀 ~ TrafficweatherController ~ getTrafficWeather ~ params:',
-      params,
-    );
-    const result =
-      await this.trafficWeatherService.getTrafficWeatherData(params);
-    return result;
+    return await this.trafficWeatherService.getTrafficWeatherData(params);
   }
 }

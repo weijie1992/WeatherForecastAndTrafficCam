@@ -1,32 +1,31 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AxiosError, AxiosResponse } from 'axios';
-import { Observable } from 'rxjs';
-import { trafficImageUrl } from 'src/trafficweather/constants/api';
+import { map, catchError, firstValueFrom } from 'rxjs';
+import { ERRORS, trafficImageUrl } from 'src/trafficweather/constants/api';
 import { TrafficWeatherRequest } from 'src/trafficweather/dtos/TrafficWeatherRequest.dto';
-import { catchError } from 'rxjs';
-
+import { TrafficImageApiResponse } from 'src/trafficweather/utils/types';
 @Injectable()
 export class TrafficImageApiService {
   constructor(private readonly httpService: HttpService) {}
-  async getData(datetime: TrafficWeatherRequest): Promise<any> {
-    console.log('🚀 ~ TrafficImageApiService ~ getData ~ datetime:', datetime);
-    console.log(`${trafficImageUrl}?date_time=${datetime}`);
-    // this.httpService.get;
-    const response = await this.httpService
-      .get(`${trafficImageUrl}?date_time=${datetime}`)
-      .pipe(
-        catchError((error: AxiosError) => {
-          console.log(
-            '🚀 ~ TrafficImageApiService ~ catchError ~ error:',
-            error,
-          );
-
-          throw error;
-        }),
-      );
-    console.log('🚀 ~ TrafficImageApiService ~ getData ~ response:', response);
-
-    return response;
+  async getData(
+    params: TrafficWeatherRequest,
+  ): Promise<TrafficImageApiResponse> {
+    return firstValueFrom(
+      this.httpService
+        .get(`${trafficImageUrl}?date_time=${params.datetime}`)
+        .pipe(
+          map(
+            (response: AxiosResponse<TrafficImageApiResponse>) => response.data,
+          ),
+          catchError((error: AxiosError) => {
+            console.error(error);
+            throw new HttpException(
+              ERRORS.service,
+              HttpStatus.INTERNAL_SERVER_ERROR,
+            );
+          }),
+        ),
+    );
   }
 }

@@ -3,5 +3,5 @@ import { TrafficweatherService } from 'src/trafficweather/services/trafficweathe
 export declare class TrafficweatherController {
     private readonly trafficWeatherService;
     constructor(trafficWeatherService: TrafficweatherService);
-    getTrafficWeather(params: TrafficWeatherRequest): Promise<any>;
+    getTrafficWeather(params: TrafficWeatherRequest): Promise<import("../../utils/types").Results[]>;
 }

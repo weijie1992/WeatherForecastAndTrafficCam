@@ -21,9 +21,7 @@ let TrafficweatherController = class TrafficweatherController {
         this.trafficWeatherService = trafficWeatherService;
     }
     async getTrafficWeather(params) {
-        console.log('🚀 ~ TrafficweatherController ~ getTrafficWeather ~ params:', params);
-        const result = await this.trafficWeatherService.getTrafficWeatherData(params);
-        return result;
+        return await this.trafficWeatherService.getTrafficWeatherData(params);
     }
 };
 exports.TrafficweatherController = TrafficweatherController;

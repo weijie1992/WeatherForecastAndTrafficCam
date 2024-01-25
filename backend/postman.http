@@ -6,7 +6,7 @@
 
 @self = http://localhost:3005/trafficweather/
 ###
-GET {{trafficImageUrl}}?date_time=2024-01-21T13:11:11
+GET {{trafficImageUrl}}?date_time=2017-01-01T13:11:11
 
 ###
 GET {{weatherForecast}} 

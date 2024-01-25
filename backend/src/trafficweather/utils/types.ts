@@ -70,4 +70,5 @@ export type Results = {
   forecast: string;
   latitude: string;
   longitude: string;
+  image: string;
 };

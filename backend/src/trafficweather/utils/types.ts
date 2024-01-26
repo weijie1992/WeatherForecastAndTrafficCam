@@ -29,7 +29,7 @@ export type MapCameraList = {
   latitude: string;
   longitude: string;
 };
-//Traffic weather
+
 type AreaMetadata = {
   name: string;
   label_location: { latitude: number; longitude: number };

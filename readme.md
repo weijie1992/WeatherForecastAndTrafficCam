@@ -12,24 +12,26 @@ Weather Forecast & Traffic Cam Website
 
 ## local
 
-git clone <https://github.com/weijie1992/WeatherForecastAndTrafficCam.git>
-cd WeatherForecastAndTrafficCam
-docker-compose up
+1) git clone <https://github.com/weijie1992/WeatherForecastAndTrafficCam.git>
+2) cd WeatherForecastAndTrafficCam
+3) docker-compose up
 
 ## development
 
-git clone <https://github.com/weijie1992/WeatherForecastAndTrafficCam.git>
-cd WeatherForecastAndTrafficCam
-cd backend
-npm i
-npm run dev
-cd ../frontend
-npm i
-npm run dev
+1) git clone <https://github.com/weijie1992/WeatherForecastAndTrafficCam.git>
+2) cd WeatherForecastAndTrafficCam
+3) cd backend
+4) npm i
+5) npm run dev
+6) cd ../frontend
+7) npm i
+8) npm run dev
 
 ## HowToUse
 
-Select a date and time, then click the search button. The date and time must not be later than the current date and time. After clicking the search button, choose a location; the screenshot and 2-hour weather information should be displayed.
+1) Select a date and time, then click the search button.
+2) The date and time must not be later than the current date and time.
+3) After clicking the search button, choose a location; the screenshot and 2-hour weather information should be displayed.
 
 ## Assumptions
 

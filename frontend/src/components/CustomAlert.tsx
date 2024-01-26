@@ -1,17 +1,6 @@
 import { useEffect } from "react";
 import { Alert } from "@mui/material";
-
-type ShowApiErrorSnack = {
-  open: boolean;
-  errorMessage: string;
-};
-
-type ShowApiErrorSnackComponent = {
-  setShowApiErrorSnack: (
-    updater: (prev: ShowApiErrorSnack | undefined) => ShowApiErrorSnack
-  ) => void;
-  showApiErrorSnack: ShowApiErrorSnack;
-};
+import { ShowApiErrorSnackComponent } from "../utils/types";
 
 const CustomAlert = ({
   setShowApiErrorSnack,

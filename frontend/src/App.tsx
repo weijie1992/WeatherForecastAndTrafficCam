@@ -13,19 +13,10 @@ import BasicTimePicker from "./components/BasicTimePicker";
 import { useState, useMemo } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import backendApi from "./api/backend-api";
-import { Results } from "./utils/types";
+import { AxiosErrorMessage, Results, ShowApiErrorSnack } from "./utils/types";
 import { DateValidationError, TimeValidationError } from "@mui/x-date-pickers";
 import CustomAlert from "./components/CustomAlert";
 import axios, { AxiosError } from "axios";
-
-type ShowApiErrorSnack = {
-  open: boolean;
-  errorMessage: string;
-};
-
-type AxiosErrorMessage = {
-  message: string;
-};
 
 function App() {
   const [searchResults, setSearchResults] = useState<Results[]>([]);
@@ -102,8 +93,7 @@ function App() {
       </Box>
 
       <Container>
-        <Box sx={{ display: "flex", justifyContent: "center" }}></Box>
-        <Box display="flex" flexDirection="column" height="100vh" mt={2}>
+        <Box display="flex" flexDirection="column" height="100vh" mt={3}>
           <Box
             display="flex"
             gap={5}
@@ -138,7 +128,12 @@ function App() {
             </Box>
           </Box>
           <Box
-            sx={{ border: ".05px solid #2f3b44", flex: "3 0 37.5%" }}
+            sx={{
+              border: ".05px solid #2f3b44",
+              flex: "3 0 37.5%",
+              overflow: "auto",
+              maxHeight: "100%",
+            }}
             display="flex"
             height="100%"
             gap={5}

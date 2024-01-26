@@ -64,8 +64,13 @@ function App() {
   const handleTimeChange = (time: Dayjs) => {
     setSelectedTime(time);
   };
+  const handleSearchReset = () => {
+    setSearchResults([]);
+    setSelectedResult(null);
+  };
   const handleSearch = async () => {
     if (!dateError && !timeError) {
+      handleSearchReset();
       const date = selectedDate.format("YYYY-MM-DD");
       const time = selectedTime.format("HH:mm:ss");
       try {
@@ -164,9 +169,13 @@ function App() {
                 alignItems: "center",
               }}
             >
-              {!selectedResult ? (
+              {searchResults.length === 0 ? (
                 <Typography variant="h6">
-                  Please select a item to view
+                  Select a Date and Time and click on the Search button
+                </Typography>
+              ) : !selectedResult ? (
+                <Typography variant="h6">
+                  Select an item in the left list
                 </Typography>
               ) : (
                 <Typography variant="h6">

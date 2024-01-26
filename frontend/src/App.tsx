@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import BasicDatePicker from "./components/BasicDatePicker";
 import BasicTimePicker from "./components/BasicTimePicker";
@@ -138,11 +139,12 @@ function App() {
             height="100%"
             gap={5}
           >
-            <Box sx={{ flex: 2 / 3 }}>
+            <Box sx={{ flex: 2 / 3, overflow: "auto", maxHeight: "100%" }}>
               <List>
                 {searchResults.map((result) => (
                   <ListItem key={result.area}>
                     <ListItemButton
+                      selected={selectedResult?.area === result.area}
                       onClick={() => {
                         setSelectedResult(result);
                       }}
@@ -153,18 +155,35 @@ function App() {
                 ))}
               </List>
             </Box>
-            <Box sx={{ flex: 1 / 3 }}>
-              {!selectedResult
-                ? "Please select a item to view"
-                : `The 2 hour weather forecast is as at current time ${dayjs()} is ${
-                    selectedResult.forecast
-                  }`}
+
+            <Box
+              display="flex"
+              sx={{
+                flex: 1 / 3,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {!selectedResult ? (
+                <Typography variant="h6">
+                  Please select a item to view
+                </Typography>
+              ) : (
+                <Typography variant="h6">
+                  {`The 2 hour weather forecast is as at current time ${dayjs()} is `}
+                  <strong>{selectedResult.forecast}</strong>
+                </Typography>
+              )}
             </Box>
           </Box>
           <Box sx={{ border: ".05px solid #2f3b44", flex: "4 0 50%" }}>
             {selectedResult && (
               <Card>
-                <img src={selectedResult.image} alt="screenshot" />
+                <img
+                  src={selectedResult.image}
+                  alt="screenshot"
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
               </Card>
             )}
           </Box>
